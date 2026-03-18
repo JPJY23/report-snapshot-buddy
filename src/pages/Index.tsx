@@ -1,11 +1,15 @@
 import { useState } from "react";
+import { format } from "date-fns";
+import { CalendarIcon, ClipboardList } from "lucide-react";
+import { cn } from "@/lib/utils";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
+import { Calendar } from "@/components/ui/calendar";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { useToast } from "@/hooks/use-toast";
 import PhotoUploadZone from "@/components/PhotoUploadZone";
-import { ClipboardList } from "lucide-react";
 
 const Index = () => {
   const { toast } = useToast();
@@ -14,6 +18,8 @@ const Index = () => {
   const [reportNumber, setReportNumber] = useState("");
   const [issue, setIssue] = useState("");
   const [photos, setPhotos] = useState<File[]>([]);
+  const [reportDate, setReportDate] = useState<Date>();
+  const [incidentTime, setIncidentTime] = useState("");
   const [submitting, setSubmitting] = useState(false);
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -37,6 +43,8 @@ const Index = () => {
       setReportNumber("");
       setIssue("");
       setPhotos([]);
+      setReportDate(undefined);
+      setIncidentTime("");
       setSubmitting(false);
     }, 600);
   };
@@ -81,17 +89,54 @@ const Index = () => {
             </div>
           </div>
 
-          {/* Report Number */}
-          <div className="max-w-[200px] space-y-2">
-            <Label htmlFor="reportNumber">Report Number</Label>
-            <Input
-              id="reportNumber"
-              value={reportNumber}
-              onChange={(e) => setReportNumber(e.target.value)}
-              className="font-mono"
-              placeholder=""
-              maxLength={50}
-            />
+          {/* Report Number & Date & Time row */}
+          <div className="grid grid-cols-1 gap-5 sm:grid-cols-3">
+            <div className="space-y-2">
+              <Label htmlFor="reportNumber">Report Number</Label>
+              <Input
+                id="reportNumber"
+                value={reportNumber}
+                onChange={(e) => setReportNumber(e.target.value)}
+                className="font-mono"
+                placeholder=""
+                maxLength={50}
+              />
+            </div>
+            <div className="space-y-2">
+              <Label>Date of Report</Label>
+              <Popover>
+                <PopoverTrigger asChild>
+                  <Button
+                    variant="outline"
+                    className={cn(
+                      "w-full justify-start text-left font-normal",
+                      !reportDate && "text-muted-foreground"
+                    )}
+                  >
+                    <CalendarIcon className="mr-2 h-4 w-4" />
+                    {reportDate ? format(reportDate, "PPP") : <span>Pick a date</span>}
+                  </Button>
+                </PopoverTrigger>
+                <PopoverContent className="w-auto p-0" align="start">
+                  <Calendar
+                    mode="single"
+                    selected={reportDate}
+                    onSelect={setReportDate}
+                    initialFocus
+                    className={cn("p-3 pointer-events-auto")}
+                  />
+                </PopoverContent>
+              </Popover>
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="incidentTime">Time of Incident</Label>
+              <Input
+                id="incidentTime"
+                type="time"
+                value={incidentTime}
+                onChange={(e) => setIncidentTime(e.target.value)}
+              />
+            </div>
           </div>
 
           {/* Issue Description */}
