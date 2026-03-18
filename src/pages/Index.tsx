@@ -43,6 +43,8 @@ const Index = () => {
       setReportNumber("");
       setIssue("");
       setPhotos([]);
+      setReportDate(undefined);
+      setIncidentTime("");
       setSubmitting(false);
     }, 600);
   };
