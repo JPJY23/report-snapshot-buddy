@@ -18,6 +18,8 @@ const Index = () => {
   const [reportNumber, setReportNumber] = useState("");
   const [issue, setIssue] = useState("");
   const [photos, setPhotos] = useState<File[]>([]);
+  const [reportDate, setReportDate] = useState<Date>();
+  const [incidentTime, setIncidentTime] = useState("");
   const [submitting, setSubmitting] = useState(false);
 
   const handleSubmit = (e: React.FormEvent) => {
