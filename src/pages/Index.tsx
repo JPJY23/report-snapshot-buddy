@@ -89,17 +89,54 @@ const Index = () => {
             </div>
           </div>
 
-          {/* Report Number */}
-          <div className="max-w-[200px] space-y-2">
-            <Label htmlFor="reportNumber">Report Number</Label>
-            <Input
-              id="reportNumber"
-              value={reportNumber}
-              onChange={(e) => setReportNumber(e.target.value)}
-              className="font-mono"
-              placeholder=""
-              maxLength={50}
-            />
+          {/* Report Number & Date & Time row */}
+          <div className="grid grid-cols-1 gap-5 sm:grid-cols-3">
+            <div className="space-y-2">
+              <Label htmlFor="reportNumber">Report Number</Label>
+              <Input
+                id="reportNumber"
+                value={reportNumber}
+                onChange={(e) => setReportNumber(e.target.value)}
+                className="font-mono"
+                placeholder=""
+                maxLength={50}
+              />
+            </div>
+            <div className="space-y-2">
+              <Label>Date of Report</Label>
+              <Popover>
+                <PopoverTrigger asChild>
+                  <Button
+                    variant="outline"
+                    className={cn(
+                      "w-full justify-start text-left font-normal",
+                      !reportDate && "text-muted-foreground"
+                    )}
+                  >
+                    <CalendarIcon className="mr-2 h-4 w-4" />
+                    {reportDate ? format(reportDate, "PPP") : <span>Pick a date</span>}
+                  </Button>
+                </PopoverTrigger>
+                <PopoverContent className="w-auto p-0" align="start">
+                  <Calendar
+                    mode="single"
+                    selected={reportDate}
+                    onSelect={setReportDate}
+                    initialFocus
+                    className={cn("p-3 pointer-events-auto")}
+                  />
+                </PopoverContent>
+              </Popover>
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="incidentTime">Time of Incident</Label>
+              <Input
+                id="incidentTime"
+                type="time"
+                value={incidentTime}
+                onChange={(e) => setIncidentTime(e.target.value)}
+              />
+            </div>
           </div>
 
           {/* Issue Description */}
