@@ -1,11 +1,15 @@
 import { useState } from "react";
+import { format } from "date-fns";
+import { CalendarIcon, ClipboardList } from "lucide-react";
+import { cn } from "@/lib/utils";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
+import { Calendar } from "@/components/ui/calendar";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { useToast } from "@/hooks/use-toast";
 import PhotoUploadZone from "@/components/PhotoUploadZone";
-import { ClipboardList } from "lucide-react";
 
 const Index = () => {
   const { toast } = useToast();
