@@ -4,9 +4,10 @@ import { useCallback, useRef, useState } from "react";
 interface PhotoUploadZoneProps {
   files: File[];
   onFilesChange: (files: File[]) => void;
+  label?: string;
 }
 
-const PhotoUploadZone = ({ files, onFilesChange }: PhotoUploadZoneProps) => {
+const PhotoUploadZone = ({ files, onFilesChange, label }: PhotoUploadZoneProps) => {
   const [isDragOver, setIsDragOver] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -46,24 +47,19 @@ const PhotoUploadZone = ({ files, onFilesChange }: PhotoUploadZoneProps) => {
         onDragLeave={() => setIsDragOver(false)}
         onDrop={handleDrop}
         onClick={() => inputRef.current?.click()}
-        className={`flex cursor-pointer flex-col items-center justify-center gap-3 rounded-lg border-2 border-dashed p-8 transition-colors duration-100 ${
+        className={`flex cursor-pointer flex-col items-center justify-center gap-3 rounded-lg border-2 border-dashed p-6 transition-colors duration-100 ${
           isDragOver
             ? "border-accent bg-accent/5"
             : "border-muted hover:border-muted-foreground/40"
         }`}
       >
         <div className="flex items-center gap-2 text-muted-foreground">
-          <Camera className="h-6 w-6" />
-          <Upload className="h-5 w-5" />
+          <Camera className="h-5 w-5" />
+          <Upload className="h-4 w-4" />
         </div>
-        <div className="text-center">
-          <p className="text-sm font-medium text-foreground">
-            Drop photos here or click to upload
-          </p>
-          <p className="mt-1 text-xs text-muted-foreground">
-            PNG, JPG, WEBP up to 10MB each
-          </p>
-        </div>
+        <p className="text-sm text-muted-foreground">
+          {label || "Drop photos here or click to upload"}
+        </p>
         <input
           ref={inputRef}
           type="file"
